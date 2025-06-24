@@ -29,7 +29,7 @@ function mostrarDetallesHotel(hotel) {
             localStorage.setItem('favoritos', JSON.stringify(favoritos));
 
             //crea modal de agregado a favoritos
-            const modalconbntainer = document.getElementById('modal');   
+            const modalcontainer = document.getElementById('modal');   
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center';
             modal.innerHTML = `
@@ -38,11 +38,11 @@ function mostrarDetallesHotel(hotel) {
                     <button id="close-modal" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Cerrar</button>
                 </div>
             `;
-            document.body.appendChild(modal);
+            modalcontainer.appendChild(modal);
             // Evento para cerrar el modal
             const closeModalBtn = document.getElementById('close-modal');   
             closeModalBtn.addEventListener('click', () => {
-                document.body.removeChild(modal);
+            modalcontainer.removeChild(modal);
             });
         } else {
             alert('Este hotel ya está en tus favoritos.');

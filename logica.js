@@ -161,10 +161,6 @@ function mostrarHoteles() {
     `;
         contenedor.appendChild(card);
 
-        // Agregamos el evento al botón de filtrar
-        const filtro = document.getElementById('search-button');
-        filtro.addEventListener('click', filtrarHoteles);
-        
         // Agregamos el evento al botón de ver hotel
         const verBtn = card.querySelector('.ver-btn');
         verBtn.addEventListener('click', () => {
@@ -190,30 +186,46 @@ function mostrarHoteles() {
         });
     });
 }
+document.getElementById('search-input').addEventListener('input', () => {
+  filtrarHoteles(hoteles);
+});
 
 
 //filtramos hoteles por nombre
-function filtrarHoteles( ) {
-    hoteles.forEach(hotel => {
-        const nombre = hotel.nombre.toLowerCase();
-        const input = document.getElementById('search-input').value.toLowerCase();
-        const card = document.querySelector(`div:contains('${hotel.nombre}')`);
-        
-        if (nombre.includes(input)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-  
+function filtrarHoteles(hoteles)  {
+    const filtro = document.getElementById('search-input');
+    const textoFiltro = filtro.value.toLowerCase();
+    const contenedor = document.getElementById('contenedor-hoteles');
+    contenedor.innerHTML = ''; // Limpiamos el contenedor antes de mostrar los resultados   
+    const hotelesFiltrados = hoteles.filter(hotel => 
+        hotel.nombre.toLowerCase().includes(textoFiltro)
+    );
+    if (hotelesFiltrados.length > 0) {
+        hotelesFiltrados.forEach(hotel => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-lg shadow p-4 m-2 max-w-xs w-full';
+            card.innerHTML = `
+                <img src="${hotel.imagen}" alt="${hotel.nombre}" class="w-full h-32 object-cover rounded-t-lg mb-2">
+                <h3 class="text-lg font-semibold mt-2">${hotel.nombre}</h3>
+                <p class="text-gray-600 text-sm mb-1">${hotel.descripcion}</p>
+                <p class="text-gray-500 text-xs mb-2">${hotel.ubicacion}</p>
+                <p class="text-gray-800 font-bold mb-2">$${hotel.precio} por noche</p>
+                <div class="flex gap-2 w-full justify-center">
+                    <button class="reservar-btn bg-blue-500 text-white px-3 py-1 rounded text-xs">Reservar</button>
+                    <button class="ver-btn bg-blue-500 text-white px-3 py-1 rounded text-xs">Ver Hotel</button>
+                    <button class="agregar-btn bg-wite-500 text-white px-2 py-1 rounded text-xs">❤</button>
+                </div>
+            `;
+            contenedor.appendChild(card);
+        });
+    } else {
+        contenedor.innerHTML = '<p>No se encontraron hoteles que coincidan con tu búsqueda.</p>';
+    }
 }
 //reservamos hoteles y lo pasamos al localStorage
 function reservarHotel(hotel) {
     localStorage.setItem('hotelReservado', JSON.stringify(hotel));
     console.log("reservado", hotel);
 }
-
-
-
 
 mostrarHoteles();
