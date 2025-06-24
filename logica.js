@@ -155,24 +155,56 @@ function mostrarHoteles() {
       <p class="text-gray-800 font-bold mb-2">$${hotel.precio} por noche</p>
       <div class="flex gap-2 w-full justify-center">
         <button class="reservar-btn bg-blue-500 text-white px-3 py-1 rounded text-xs">Reservar</button>
+        <button class="ver-btn bg-blue-500 text-white px-3 py-1 rounded text-xs">Ver Hotel</button>
         <button class="agregar-btn bg-wite-500 text-white px-2 py-1 rounded text-xs">❤</button>
       </div>
     `;
         contenedor.appendChild(card);
-    
+
+        // Agregamos el evento al botón de filtrar
+        const filtro = document.getElementById('search-button');
+        filtro.addEventListener('click', filtrarHoteles);
+        
+        // Agregamos el evento al botón de ver hotel
+        const verBtn = card.querySelector('.ver-btn');
+        verBtn.addEventListener('click', () => {
+            localStorage.setItem('hotelSeleccionado', JSON.stringify(hotel));
+            window.location.href = 'detalles.html'; 
+            // Redirige a la página de detalles del hotel
+        });
+        // Agregamos el evento al botón de agregar a favoritos
+        const agregarBtn = card.querySelector('.agregar-btn');  
+        agregarBtn.addEventListener('click', () => {
+            const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+            if (!favoritos.some(fav => fav.nombre === hotel.nombre)) {
+                favoritos.push(hotel);
+                localStorage.setItem('favoritos', JSON.stringify(favoritos));
+            } else {
+                alert('Este hotel ya está en tus favoritos.');
+            }
+        });
+        // Agregamos el evento al botón de reservar
         const reservarBtn = card.querySelector('.reservar-btn');
         reservarBtn.addEventListener('click', () => {
         reservarHotel(hotel);
         });
     });
 }
-// Agregamos el evento al botón de filtrar
-const filtro = document.getElementById('search-button');
-filtro.addEventListener('click', filtrarHoteles);
+
 
 //filtramos hoteles por nombre
-function filtrarHoteles() {
-    console.log('Filtrando hoteles...');
+function filtrarHoteles( ) {
+    hoteles.forEach(hotel => {
+        const nombre = hotel.nombre.toLowerCase();
+        const input = document.getElementById('search-input').value.toLowerCase();
+        const card = document.querySelector(`div:contains('${hotel.nombre}')`);
+        
+        if (nombre.includes(input)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
   
 }
 //reservamos hoteles y lo pasamos al localStorage
