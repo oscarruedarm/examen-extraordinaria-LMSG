@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoteles</title>
+</head>
+<body>
+    <div>
+        <section>
+            <nav class="bg-blue-700 shadow-md rounded-b-lg mb-6">
+                <ul class="flex space-x-8 px-8 py-4 justify-end">
+                    <li><a href="detalles.html" class="text-white font-semibold hover:underline hover:text-blue-200 transition">Detalles</a></li>
+                    <li><a href="favoritos.html" class="text-white font-semibold hover:underline hover:text-blue-200 transition">Favoritos</a></li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <div class="flex justify-center mb-6">
+                <input type="text" id="search-input" placeholder="Buscar hotel..." class="p-2 rounded-lg border-none w-64 max-w-xs focus:ring-2 focus:ring-blue-300 transition duration-200 text-gray-800 shadow" />
+                <button id="search-button" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">Buscar</button>
+            </div>
+            <div id="hotels-container">
+                <h1 class="text-2xl font-bold text-center mb-6">Hoteles Disponibles</h1>
+                    <div id="contenedor-hoteles" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center"></div>
+                    <!-- Aquí se mostrarán los hoteles -->  
+            </div>
+        </section>
+    </div>
+    
+</body>
+<script src="logica.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+</html>
